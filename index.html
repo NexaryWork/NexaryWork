@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BroadBand Device Webserver</title>
+    <link rel="stylesheet" href="admin/reset.css">
+    <link rel="stylesheet" href="admin/base.css">
+    <link rel="stylesheet" href="admin/style.css">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    
+    <script src="admin/jquip_sizzle.js" defer></script>
+    <script src="admin/jquip.js" defer></script>
+    <script src="admin/juicer.js" defer></script>
+    <script src="admin/ui.js" defer></script>
+    <script src="admin/init.js" defer></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const script = document.createElement('script');
+            script.src = `adminMenu.js?v=${Math.random()}`;
+            document.head.appendChild(script);
+        });
+
+        function confirmlogout() {
+            return confirm('¿Confirmas que quieres cerrar sesión?');
+        }
+
+        function cleanload() {
+            top.document.getElementById('shade').style.display = 'none';
+            top.document.getElementById('loadpagediv').style.display = 'none';
+        }
+
+        function mlhandle() {
+            document.formML.submit();
+        }
+    </script>
+
+    <script id="nav-tmpl" type="text/template">
+        {@each items as item}
+            <li><a href="javascript:void(0)" rel="${item.sub}" class="">${item.name}</a><span></span></li>
+        {@/each}
+    </script>
+
+    <script id="side-tmpl" type="text/x-template">
+        {@each items as item}
+            <li class="{@if item.collapsed}collapsed{@/if}">
+                <h3><a href="#">${item.name}</a></h3>
+                <ul>
+                    {@each item.items as it}
+                        <li><a target="contentIframe" href="${it.href}" class="">${it.name}</a></li>
+                    {@/each}
+                </ul>
+            </li>
+        {@/each}
+    </script>
+</head>
+<body>
+    <div id="shade"></div>
+    <div id="loadpagediv" class="loading" style="display:none;">
+        <p>Proceeding...</p>
+    </div>
+    <div id="wrapper">
+        <header id="header">
+            <a href="https://telmex.com">
+                <img src="../graphics/top_bg.png" alt="Logo" height="100" width="283" style="margin:5px;">
+            </a>
+            <div class="top_bg">
+                <ul id="top_side"></ul>
+            </div>
+            <nav class="nav_side clearfix">
+                <div class="nav_left"></div>
+                <ul id="nav"></ul>
+                <div class="nav_right"></div>
+            </nav>
+        </header>
+        
+        <main id="main" class="clearfix">
+            <section id="side_wrapper">
+                <div class="box_wrapper">
+                    <h3 class="box_top"></h3>
+                    <div class="box_content">
+                        <ul id="side"></ul>
+                    </div>
+                </div>
+                <div class="box_wrapper none" id="attention">
+                    <h3 class="box_top"></h3>
+                    <div class="box_content">
+                        <form name="formAttensave" method="POST" action="form2AttenSave.cgi">
+                            <p>Attention Config is modified to make it effective forever!</p>
+                            <input type="submit" value="Save" class="link_bg">
+                            <input type="hidden" name="submit.htm?index.htm" value="Send">
+                        </form>
+                    </div>
+                </div>
+            </section>
+            <div id="content">
+                <iframe src="#" frameborder="0" name="contentIframe" id="contentIframe" scrolling="no" onload="cleanload()"></iframe>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
